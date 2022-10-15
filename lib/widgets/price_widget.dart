@@ -4,28 +4,35 @@ import 'package:flutter/material.dart';
 import '../services/utils.dart';
 
 class PriceWidget extends StatelessWidget {
-  const PriceWidget({Key? key}) : super(key: key);
+  const PriceWidget({Key? key, required this.salePrice, required this.price, required this.textPrice, required this.isOnSale}) : super(key: key);
 
+  final double salePrice, price;
+  final String textPrice;
+  final bool isOnSale;
   @override
   Widget build(BuildContext context) {
     final Color color = Utils(context).color;
+    double userPrice = isOnSale ? salePrice : price;
     return FittedBox(
         child: Row(
       children: [
-        const TextWidget(
-          text: '1.59\$',
+        TextWidget(
+          text: '\$${(userPrice * int.parse(textPrice)).toStringAsFixed(2)}',
           color: Colors.green,
-          textSize: 22,
+          textSize: 18,
         ),
         const SizedBox(
           width: 5,
         ),
-        Text(
-          '2.59\$',
-          style: TextStyle(
-            fontSize: 15,
-            color: color,
-            decoration: TextDecoration.lineThrough,
+        Visibility(
+          visible: isOnSale ? true : false,
+          child: Text(
+            '${(price * double.parse(textPrice) ).toStringAsFixed(2)}\$',
+            style: TextStyle(
+              fontSize: 15,
+              color: color,
+              decoration: TextDecoration.lineThrough,
+            ),
           ),
         )
       ],

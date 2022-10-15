@@ -1,3 +1,6 @@
+import 'package:dokana/screens/orders/orders_screen.dart';
+import 'package:dokana/screens/viewed_recently/viewed_recently.dart';
+import 'package:dokana/screens/wishlist/wishlist_screen.dart';
 import 'package:dokana/widgets/text_widget.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +8,7 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:provider/provider.dart';
 
 import '../provider/dark_theme_provider.dart';
+import '../services/global_methods.dart';
 
 class UserScreen extends StatefulWidget {
   const UserScreen({Key? key}) : super(key: key);
@@ -80,24 +84,34 @@ class _UserScreenState extends State<UserScreen> {
                 ),
                 _userListTile(
                   icon: IconlyLight.bag,
-                  onPressed: () {},
+                  onPressed: () {
+                    GlobalMethods.navigateTo(
+                        ctx: context, routeName: OrdersScreen.routeName);
+                  },
                   title: 'Orders',
                 ),
                 _userListTile(
                   icon: IconlyLight.heart,
-                  onPressed: () {},
+                  onPressed: () {
+                    GlobalMethods.navigateTo(
+                        ctx: context, routeName: WishlistScreen.routeName);
+                  },
                   title: 'Wish list',
+                ),
+                _userListTile(
+                  icon: IconlyLight.show,
+                  onPressed: () {
+                    GlobalMethods.navigateTo(
+                        ctx: context, routeName: ViewedRecentlyScreen.routeName);
+                  },
+                  title: 'Viewed',
                 ),
                 _userListTile(
                   icon: IconlyLight.unlock,
                   onPressed: () {},
                   title: 'Forget password',
                 ),
-                _userListTile(
-                  icon: IconlyLight.show,
-                  onPressed: () {},
-                  title: 'Viewed',
-                ),
+
                 SwitchListTile.adaptive(
                   title: TextWidget(
                     text: themeState.getDarkTheme ? 'Dark mode' : 'Light Mode',
@@ -116,7 +130,12 @@ class _UserScreenState extends State<UserScreen> {
                   icon: IconlyLight.logout,
                   title: 'Log out',
                   onPressed: () async {
-                    _showLogoutDialog();
+                    GlobalMethods.warningDialog(
+                      title: 'Log out',
+                      context: context,
+                      fct: (){},
+                      subtitle: 'Do you wanna Sign Out?',
+                    );
                   },
                 ),
               ],
@@ -127,46 +146,6 @@ class _UserScreenState extends State<UserScreen> {
     );
   }
 
-  Future<void> _showLogoutDialog() async {
-    await showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Row(
-              children: const [
-                Icon(IconlyLight.logout),
-                SizedBox(
-                  width: 8,
-                ),
-                TextWidget(
-                  text: 'Log out',
-                  textSize: 22,
-                  isTitle: true,
-                ),
-              ],
-            ),
-            content: const Center(
-              child: TextWidget(
-                textSize: 18,
-                text: 'Do you wanna Sign Out?',
-              ),
-            ),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const TextWidget(
-                    text: 'cancel', color: Colors.redAccent, textSize: 14),
-              ),
-              TextButton(
-                onPressed: () {},
-                child: const TextWidget(text: 'Ok', textSize: 14),
-              ),
-            ],
-          );
-        });
-  }
 
   Future<void> _showAddressDialog() async {
     await showDialog(

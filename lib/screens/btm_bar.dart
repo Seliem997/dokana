@@ -1,9 +1,9 @@
-import 'package:dokana/screens/cart.dart';
 import 'package:dokana/screens/categories.dart';
 import 'package:dokana/screens/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 
+import 'cart/cart_screen.dart';
 import 'home_screen.dart';
 
 class BottomBarScreen extends StatefulWidget {

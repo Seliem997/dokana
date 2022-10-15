@@ -3,9 +3,11 @@ import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 
+import '../inner_screen/product_details.dart';
+import '../services/global_methods.dart';
 import '../services/utils.dart';
+import 'heart_btn.dart';
 import 'price_widget.dart';
-
 class OnSaleWidget extends StatefulWidget {
   const OnSaleWidget({Key? key}) : super(key: key);
 
@@ -17,6 +19,7 @@ class _OnSaleWidgetState extends State<OnSaleWidget> {
   @override
   Widget build(BuildContext context) {
     final Color color = Utils(context).color;
+    final theme = Utils(context).getTheme;
     Size size = Utils(context).getScreenSize;
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -25,7 +28,10 @@ class _OnSaleWidgetState extends State<OnSaleWidget> {
         borderRadius: BorderRadius.circular(12),
         child: InkWell(
           borderRadius: BorderRadius.circular(12),
-          onTap: () {},
+          onTap: () {
+            GlobalMethods.navigateTo(
+                ctx: context, routeName: ProductDetails.routeName);
+          },
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(crossAxisAlignment: CrossAxisAlignment.start,
@@ -37,7 +43,7 @@ class _OnSaleWidgetState extends State<OnSaleWidget> {
                       FancyShimmerImage(
                         imageUrl: 'https://i.ibb.co/F0s3FHQ/Apricots.png',
                         height: size.width * 0.22,
-                        width: size.width * 0.23,
+                        width: size.width * 0.22,
                         boxFit: BoxFit.fill,
                       ),
                       Column(
@@ -61,23 +67,19 @@ class _OnSaleWidgetState extends State<OnSaleWidget> {
                                   color: color,
                                 ),
                               ),
-                              GestureDetector(
-                                onTap: () {
-                                  print('print heart button is pressed');
-                                },
-                                child: Icon(
-                                  IconlyLight.heart,
-                                  size: 22,
-                                  color: color,
-                                ),
-                              ),
+                              const HeartBTN(),
                             ],
                           ),
                         ],
                       )
                     ],
                   ),
-                  const PriceWidget(),
+                  const PriceWidget(
+                    salePrice: 2.99,
+                    price: 5.9,
+                    textPrice: '1',
+                    isOnSale: true,
+                  ),
                   const SizedBox(height: 5),
                   TextWidget(
                     text: 'Product title',
